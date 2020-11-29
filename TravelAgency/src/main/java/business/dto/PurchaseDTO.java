@@ -57,6 +57,8 @@ public class PurchaseDTO {
     public String toString() {
         return "PurchaseDTO{" +
                 "amount=" + amount +
+                ", tripDTO=" + tripDTO +
+                ", clientDTOSet=" + clientDTOSet +
                 '}';
     }
 }

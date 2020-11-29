@@ -16,12 +16,22 @@ public class Purchase {
     private Trip trip;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "clients_purchases", joinColumns = {@JoinColumn(name = "purchase_id")},
-            inverseJoinColumns = {@JoinColumn(name = "client_id")})
+                inverseJoinColumns = {@JoinColumn(name = "client_id")})
     private Set<Client> clientSet;
+
+    public Purchase(double amount, Trip trip, Set<Client> clientSet) {
+        this.amount = amount;
+        this.trip = trip;
+        this.clientSet = clientSet;
+    }
 
     public Purchase(double amount, Trip trip) {
         this.amount = amount;
         this.trip = trip;
+    }
+
+    public Purchase(double amount) {
+        this.amount = amount;
     }
 
     public Purchase() {
@@ -64,6 +74,7 @@ public class Purchase {
         return "Purchase{" +
                 "amount=" + amount +
                 ", trip=" + trip +
+                ", clientSet=" + clientSet +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package persistence.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = "findPromotedTrips", query = "select trip from Trip trip where trip.promoted = :promoted"),
@@ -16,6 +17,8 @@ public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "name")
+    private String name;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "airport_id")
     private Airport airport;
@@ -42,8 +45,11 @@ public class Trip {
     private int kidsBed;
     @Column(name = "stock")
     private int stock;
+    @OneToMany(mappedBy = "trip")
+    private Set<Purchase> purchaseSet;
 
-    public Trip(Airport airport, Hotel hotel, Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock) {
+    public Trip(String name, Airport airport, Hotel hotel, Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock) {
+        this.name = name;
         this.airport = airport;
         this.hotel = hotel;
         this.departureDate = departureDate;
@@ -58,7 +64,32 @@ public class Trip {
         this.stock = stock;
     }
 
+    public Trip(String name, Airport airport, Hotel hotel, Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock, Set<Purchase> purchaseSet) {
+        this.name = name;
+        this.airport = airport;
+        this.hotel = hotel;
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
+        this.numberDays = numberDays;
+        this.tripType = tripType;
+        this.adultPrice = adultPrice;
+        this.kidPrice = kidPrice;
+        this.promoted = promoted;
+        this.adultBed = adultBed;
+        this.kidsBed = kidsBed;
+        this.stock = stock;
+        this.purchaseSet = purchaseSet;
+    }
+
     public Trip() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -165,10 +196,19 @@ public class Trip {
         this.stock = stock;
     }
 
+    public Set<Purchase> getPurchaseSet() {
+        return purchaseSet;
+    }
+
+    public void setPurchaseSet(Set<Purchase> purchaseSet) {
+        this.purchaseSet = purchaseSet;
+    }
+
     @Override
     public String toString() {
         return "Trip{" +
-                "airport=" + airport +
+                "name='" + name + '\'' +
+                ", airport=" + airport +
                 ", hotel=" + hotel +
                 ", departureDate=" + departureDate +
                 ", returnDate=" + returnDate +

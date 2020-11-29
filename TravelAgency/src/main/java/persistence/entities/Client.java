@@ -21,7 +21,7 @@ public class Client {
     private String phoneNumber;
     @Column(name = "email")
     private String email;
-    @ManyToMany(mappedBy = "clientSet", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "clientSet")
     private Set<Purchase> purchaseSet;
 
     public Client(String firstName, String surname, int yearOfBirth, String adress, String phoneNumber, String email) {
@@ -31,6 +31,16 @@ public class Client {
         this.adress = adress;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    public Client(String firstName, String surname, int yearOfBirth, String adress, String phoneNumber, String email, Set<Purchase> purchaseSet) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.yearOfBirth = yearOfBirth;
+        this.adress = adress;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.purchaseSet = purchaseSet;
     }
 
     public Client() {
@@ -92,6 +102,14 @@ public class Client {
         this.email = email;
     }
 
+    public Set<Purchase> getPurchaseSet() {
+        return purchaseSet;
+    }
+
+    public void setPurchaseSet(Set<Purchase> purchaseSet) {
+        this.purchaseSet = purchaseSet;
+    }
+
     @Override
     public String toString() {
         return "Client{" +
@@ -101,6 +119,7 @@ public class Client {
                 ", adress='" + adress + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", purchaseSet=" + purchaseSet +
                 '}';
     }
 }

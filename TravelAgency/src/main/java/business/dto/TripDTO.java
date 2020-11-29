@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class TripDTO {
     private int id;
+    private String name;
     private AirportDTO airportDTO;
     private HotelDTO hotelDTO;
     private Date departureDate;
@@ -17,7 +18,8 @@ public class TripDTO {
     private int kidsBed;
     private int stock;
 
-    public TripDTO(AirportDTO airportDTO, HotelDTO hotelDTO, Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock) {
+    public TripDTO(String name, AirportDTO airportDTO, HotelDTO hotelDTO, Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock) {
+        this.name = name;
         this.airportDTO = airportDTO;
         this.hotelDTO = hotelDTO;
         this.departureDate = departureDate;
@@ -32,7 +34,8 @@ public class TripDTO {
         this.stock = stock;
     }
 
-    public TripDTO(Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock) {
+    public TripDTO(String name, Date departureDate, Date returnDate, int numberDays, String tripType, double adultPrice, double kidPrice, boolean promoted, int adultBed, int kidsBed, int stock) {
+        this.name = name;
         this.departureDate = departureDate;
         this.returnDate = returnDate;
         this.numberDays = numberDays;
@@ -46,6 +49,14 @@ public class TripDTO {
     }
 
     public TripDTO() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -155,7 +166,8 @@ public class TripDTO {
     @Override
     public String toString() {
         return "TripDTO{" +
-                "airportDTO=" + airportDTO +
+                "name='" + name + '\'' +
+                ", airportDTO=" + airportDTO +
                 ", hotelDTO=" + hotelDTO +
                 ", departureDate=" + departureDate +
                 ", returnDate=" + returnDate +

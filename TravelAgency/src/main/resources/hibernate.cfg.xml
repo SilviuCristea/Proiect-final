@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <property name = "hibernate.dialect">
+            org.hibernate.dialect.MySQLDialect
+        </property>
+
+        <property name = "hibernate.connection.driver_class">
+            com.mysql.jdbc.Driver
+        </property>
+
+        <!-- Assume test is the database name -->
+
+        <property name = "hibernate.connection.url">
+            jdbc:mysql://localhost:3306/travel_agency?serverTimezone=UTC
+        </property>
+
+        <property name = "hibernate.connection.username">
+            root
+        </property>
+
+        <property name = "hibernate.connection.password">
+            Vladana2
+        </property>
+
+        <!-- List of XML mapping files -->
+        <mapping class="persistence.entities.Airport"></mapping>
+        <mapping class="persistence.entities.City"></mapping>
+        <mapping class="persistence.entities.Client"></mapping>
+        <mapping class="persistence.entities.Continent"></mapping>
+        <mapping class="persistence.entities.Country"></mapping>
+        <mapping class="persistence.entities.Flight"></mapping>
+        <mapping class="persistence.entities.Hotel"></mapping>
+        <mapping class="persistence.entities.Purchase"></mapping>
+        <mapping class="persistence.entities.Room"></mapping>
+        <mapping class="persistence.entities.Trip"></mapping>
+        <mapping class="persistence.entities.User"></mapping>
+
+    </session-factory>
+</hibernate-configuration>

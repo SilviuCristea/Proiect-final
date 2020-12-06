@@ -3,7 +3,6 @@ package business.dto;
 import java.util.Set;
 
 public class HotelDTO {
-    private int id;
     private String name;
     private int stars;
     private String decription;
@@ -65,14 +64,6 @@ public class HotelDTO {
 
     public void setRoomDTOSet(Set<RoomDTO> roomDTOSet) {
         this.roomDTOSet = roomDTOSet;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

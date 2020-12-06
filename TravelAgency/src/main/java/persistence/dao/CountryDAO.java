@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import persistence.entities.Country;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -17,12 +18,28 @@ public class CountryDAO {
         session.getTransaction().commit();
         session.close();
     }
-    public List<Country> findCountryByName(String name){
+    public Country findCountryByName(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query findCountryByNameQuery = session.createNamedQuery("findCountryByName");
         findCountryByNameQuery.setParameter("name", name);
-        List<Country> countryList = findCountryByNameQuery.getResultList();
+        Country country = null;
+        try {
+            country = (Country) findCountryByNameQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        }
+        session.getTransaction().commit();
+        session.close();
+        return country;
+    }
+
+    public List<Country> findCountryByContinent(String name){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query findCountryByContinentQuery = session.createQuery("findCountryByContinent");
+        findCountryByContinentQuery.setParameter("name", name);
+        List<Country> countryList = findCountryByContinentQuery.getResultList();
         session.getTransaction().commit();
         session.close();
         return countryList;

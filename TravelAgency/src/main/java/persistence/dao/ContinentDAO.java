@@ -5,8 +5,8 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import persistence.entities.Continent;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.util.List;
 
 @Repository
 public class ContinentDAO {
@@ -18,14 +18,19 @@ public class ContinentDAO {
         session.close();
     }
 
-    public List<Continent> findContinentByName(String name){
+    public Continent findContinentByName(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query findContinentByNameQuery = session.createNamedQuery("findContinentByName");
         findContinentByNameQuery.setParameter("name", name);
-        List<Continent> continentList = findContinentByNameQuery.getResultList();
+        Continent continent = null;
+        try {
+            continent = (Continent) findContinentByNameQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        }
         session.getTransaction().commit();
         session.close();
-        return continentList;
+        return continent;
     }
 }

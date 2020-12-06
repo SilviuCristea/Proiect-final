@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import persistence.dao.ContinentDAO;
 import persistence.entities.Continent;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ContinentService {
@@ -20,13 +18,13 @@ public class ContinentService {
         continentDAO.insert(continent);
     }
 
-    public List<ContinentDTO> findContinentByName(String name){
-        List<Continent> continentList = continentDAO.findContinentByName(name);
-        List<ContinentDTO> continentDTOList = new ArrayList<ContinentDTO>();
-        for (Continent continent : continentList){
-            ContinentDTO continentDTO = new ContinentDTO();
-            continentDTO.setName(continent.getName());
+    public ContinentDTO findContinentByName(String name){
+        Continent continent = continentDAO.findContinentByName(name);
+        ContinentDTO continentDTO = new ContinentDTO();
+        if (continent == null){
+            return null;
         }
-        return continentDTOList;
+        continentDTO.setName(continent.getName());
+        return continentDTO;
     }
 }

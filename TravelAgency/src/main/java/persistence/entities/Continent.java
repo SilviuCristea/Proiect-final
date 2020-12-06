@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @NamedQueries({
-        @NamedQuery(name = "findContinentByName", query = "select continent from Continent continent where continent.mane = :name")
+        @NamedQuery(name = "findContinentByName", query = "select continent from Continent continent where continent.name = :name")
 })
 
 @Entity

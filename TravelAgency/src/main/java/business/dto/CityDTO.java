@@ -3,7 +3,6 @@ package business.dto;
 import java.util.Set;
 
 public class CityDTO {
-    private int id;
     private String name;
     private CountryDTO countryDTO;
     private Set<AirportDTO> airportDTOSet;
@@ -23,13 +22,6 @@ public class CityDTO {
     public CityDTO() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

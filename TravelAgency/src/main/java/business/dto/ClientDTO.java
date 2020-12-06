@@ -3,7 +3,6 @@ package business.dto;
 import java.util.Set;
 
 public class ClientDTO {
-    private int id;
     private String firstName;
     private String surname;
     private int yearOfBirth;
@@ -22,8 +21,7 @@ public class ClientDTO {
         this.purchaseDTOSet = purchaseDTOSet;
     }
 
-    public ClientDTO(int id, String firstName, String surname, int yearOfBirth, String adress, String phoneNumber, String email) {
-        this.id = id;
+    public ClientDTO(String firstName, String surname, int yearOfBirth, String adress, String phoneNumber, String email) {
         this.firstName = firstName;
         this.surname = surname;
         this.yearOfBirth = yearOfBirth;
@@ -33,14 +31,6 @@ public class ClientDTO {
     }
 
     public ClientDTO() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {

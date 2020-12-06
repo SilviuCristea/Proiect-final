@@ -1,9 +1,11 @@
 package persistence.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @NamedQueries({
-        @NamedQuery(name = "findAirportByName", query = "select airport from Airport airport where airport.name = :name")
+        @NamedQuery(name = "findAirportByName", query = "select airport from Airport airport where airport.name = :name"),
+        @NamedQuery(name = "fingAirportByCity", query = "select airport from Airport airport inner join airport.city city where city.name = :name")
 })
 
 @Entity
@@ -17,10 +19,16 @@ public class Airport {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
     private City city;
+    @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL)
+    private Set<Trip> tripSet;
+    @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL)
+    private Set<Flight> flightSet;
 
-    public Airport(String name, City city) {
+    public Airport(String name, City city, Set<Trip> tripSet, Set<Flight> flightSet) {
         this.name = name;
         this.city = city;
+        this.tripSet = tripSet;
+        this.flightSet = flightSet;
     }
 
     public Airport(String name) {
@@ -28,6 +36,22 @@ public class Airport {
     }
 
     public Airport() {
+    }
+
+    public Set<Trip> getTripSet() {
+        return tripSet;
+    }
+
+    public void setTripSet(Set<Trip> tripSet) {
+        this.tripSet = tripSet;
+    }
+
+    public Set<Flight> getFlightSet() {
+        return flightSet;
+    }
+
+    public void setFlightSet(Set<Flight> flightSet) {
+        this.flightSet = flightSet;
     }
 
     public int getId() {
@@ -59,6 +83,8 @@ public class Airport {
         return "Airport{" +
                 "name='" + name + '\'' +
                 ", city=" + city +
+                ", tripSet=" + tripSet +
+                ", flightSet=" + flightSet +
                 '}';
     }
 }

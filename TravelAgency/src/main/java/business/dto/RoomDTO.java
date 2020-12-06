@@ -3,7 +3,6 @@ package business.dto;
 import java.util.Set;
 
 public class RoomDTO {
-    private int id;
     private String type;
     private int number;
     private boolean extraBed;
@@ -23,14 +22,6 @@ public class RoomDTO {
     }
 
     public RoomDTO() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getType() {

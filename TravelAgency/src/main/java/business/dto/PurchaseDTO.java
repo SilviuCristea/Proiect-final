@@ -3,7 +3,6 @@ package business.dto;
 import java.util.Set;
 
 public class PurchaseDTO {
-    private int id;
     private double amount;
     private TripDTO tripDTO;
     private Set<ClientDTO> clientDTOSet;
@@ -19,14 +18,6 @@ public class PurchaseDTO {
     }
 
     public PurchaseDTO() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public double getAmount() {

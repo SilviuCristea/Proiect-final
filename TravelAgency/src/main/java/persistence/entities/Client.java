@@ -21,6 +21,8 @@ public class Client {
     private String phoneNumber;
     @Column(name = "email")
     private String email;
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    private User user;
     @ManyToMany(mappedBy = "clientSet")
     private Set<Purchase> purchaseSet;
 
@@ -33,17 +35,26 @@ public class Client {
         this.email = email;
     }
 
-    public Client(String firstName, String surname, int yearOfBirth, String adress, String phoneNumber, String email, Set<Purchase> purchaseSet) {
+    public Client(String firstName, String surname, int yearOfBirth, String adress, String phoneNumber, String email, User user, Set<Purchase> purchaseSet) {
         this.firstName = firstName;
         this.surname = surname;
         this.yearOfBirth = yearOfBirth;
         this.adress = adress;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.user = user;
         this.purchaseSet = purchaseSet;
     }
 
     public Client() {
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -119,6 +130,7 @@ public class Client {
                 ", adress='" + adress + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
+                ", user=" + user +
                 ", purchaseSet=" + purchaseSet +
                 '}';
     }

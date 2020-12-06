@@ -3,7 +3,6 @@ package business.dto;
 import java.util.Date;
 
 public class TripDTO {
-    private int id;
     private String name;
     private AirportDTO airportDTO;
     private HotelDTO hotelDTO;
@@ -57,14 +56,6 @@ public class TripDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public AirportDTO getAirportDTO() {

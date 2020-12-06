@@ -1,13 +1,18 @@
 package business.dto;
 
+import java.util.Set;
+
 public class AirportDTO {
-    private int id;
     private String name;
     private CityDTO cityDTO;
+    private Set<TripDTO> tripDTOSet;
+    private Set<FlightDTO> flightDTOSet;
 
-    public AirportDTO(String name, CityDTO cityDTO) {
+    public AirportDTO(String name, CityDTO cityDTO, Set<TripDTO> tripDTOSet, Set<FlightDTO> flightDTOSet) {
         this.name = name;
         this.cityDTO = cityDTO;
+        this.tripDTOSet = tripDTOSet;
+        this.flightDTOSet = flightDTOSet;
     }
 
     public AirportDTO(String name) {
@@ -17,13 +22,22 @@ public class AirportDTO {
     public AirportDTO() {
     }
 
-    public int getId() {
-        return id;
+    public Set<TripDTO> getTripDTOSet() {
+        return tripDTOSet;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setTripDTOSet(Set<TripDTO> tripDTOSet) {
+        this.tripDTOSet = tripDTOSet;
     }
+
+    public Set<FlightDTO> getFlightDTOSet() {
+        return flightDTOSet;
+    }
+
+    public void setFlightDTOSet(Set<FlightDTO> flightDTOSet) {
+        this.flightDTOSet = flightDTOSet;
+    }
+
 
     public String getName() {
         return name;

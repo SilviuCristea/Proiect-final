@@ -4,7 +4,6 @@ import java.sql.Time;
 import java.util.Date;
 
 public class FlightDTO {
-    private int id;
     private Date flightDate;
     private Time flightHour;
     private String flightTo;
@@ -30,14 +29,6 @@ public class FlightDTO {
     }
 
     public FlightDTO() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Date getFlightDate() {

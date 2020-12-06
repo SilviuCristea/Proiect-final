@@ -1,9 +1,16 @@
 package business.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 public class CountryDTO {
-    private int id;
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    @Pattern(regexp = "([a-z-A-Z])*")
     private String name;
     private ContinentDTO continentDTO;
     private Set<CityDTO> cityDTOSet;
@@ -14,19 +21,11 @@ public class CountryDTO {
         this.cityDTOSet = cityDTOSet;
     }
 
-    public CountryDTO(String name) {
+    public CountryDTO(@NotNull @NotBlank @ NotEmpty @Pattern(regexp = "([a-z-A-Z])*") String name) {
         this.name = name;
     }
 
     public CountryDTO() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

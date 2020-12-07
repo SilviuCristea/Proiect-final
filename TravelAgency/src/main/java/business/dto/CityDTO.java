@@ -1,14 +1,22 @@
 package business.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 public class CityDTO {
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Pattern(regexp = "([a-z-A-Z])*")
     private String name;
     private CountryDTO countryDTO;
     private Set<AirportDTO> airportDTOSet;
     private Set<HotelDTO> hotelDTOSet;
 
-    public CityDTO(String name) {
+    public CityDTO(@NotNull @NotEmpty @NotBlank @Pattern(regexp = "([a-z-A-Z])*") String name) {
         this.name = name;
     }
 

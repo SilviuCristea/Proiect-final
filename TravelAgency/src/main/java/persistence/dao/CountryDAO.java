@@ -37,7 +37,7 @@ public class CountryDAO {
     public List<Country> findCountryByContinent(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query findCountryByContinentQuery = session.createQuery("findCountryByContinent");
+        Query findCountryByContinentQuery = session.createNamedQuery("findCountryByContinent");
         findCountryByContinentQuery.setParameter("name", name);
         List<Country> countryList = findCountryByContinentQuery.getResultList();
         session.getTransaction().commit();

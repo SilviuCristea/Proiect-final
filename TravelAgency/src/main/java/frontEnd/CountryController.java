@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class CountryController {
@@ -26,7 +27,7 @@ public class CountryController {
         }
     }
 
-    @GetMapping(path = "findCountryByName")
+    @GetMapping(path = "/findCountryByName")
     public ResponseEntity findCountryByName(@RequestParam String name){
         CountryDTO countryDTO = countryService.findCountryByName(name);
         if (countryDTO == null){
@@ -36,8 +37,13 @@ public class CountryController {
         }
     }
 
-    @GetMapping(path = "findCountryBycontinent")
+    @GetMapping(path = "/findCountryByContinent")
     public ResponseEntity findCountryByContinent(@RequestParam String name){
-        if ()
+        List<CountryDTO> countryDTOList = countryService.findCountryByContinent(name);
+        if (continentService.findContinentByName(name) == null){
+            return ResponseEntity.badRequest().body(name+" nu exista in baza de date.");
+        }else{
+            return ResponseEntity.ok(countryDTOList);
+        }
     }
 }

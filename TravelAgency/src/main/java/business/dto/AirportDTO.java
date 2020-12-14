@@ -1,14 +1,20 @@
 package business.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 public class AirportDTO {
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String name;
     private CityDTO cityDTO;
     private Set<TripDTO> tripDTOSet;
     private Set<FlightDTO> flightDTOSet;
 
-    public AirportDTO(String name, CityDTO cityDTO, Set<TripDTO> tripDTOSet, Set<FlightDTO> flightDTOSet) {
+    public AirportDTO(@NotNull @NotBlank @NotEmpty String name, CityDTO cityDTO, Set<TripDTO> tripDTOSet, Set<FlightDTO> flightDTOSet) {
         this.name = name;
         this.cityDTO = cityDTO;
         this.tripDTOSet = tripDTOSet;

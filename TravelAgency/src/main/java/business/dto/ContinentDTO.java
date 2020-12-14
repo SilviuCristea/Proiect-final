@@ -10,7 +10,7 @@ public class ContinentDTO {
     @NotEmpty
     @NotNull
     @NotBlank
-    @Pattern(regexp = "([a-z-A-Z])*")
+    @Pattern(regexp = "([a-z A-Z])*")
     private String name;
     private Set<CountryDTO> countryDTOSet;
 
@@ -19,7 +19,7 @@ public class ContinentDTO {
         this.countryDTOSet = countryDTOSet;
     }
 
-    public ContinentDTO(@NotEmpty @NotBlank @NotNull @Pattern(regexp = "([a-z-A-Z])*") String name) {
+    public ContinentDTO(@NotEmpty @NotBlank @NotNull @Pattern(regexp = "([a-z A-Z])*") String name) {
         this.name = name;
     }
 

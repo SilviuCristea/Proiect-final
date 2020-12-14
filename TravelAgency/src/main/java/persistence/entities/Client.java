@@ -3,6 +3,11 @@ package persistence.entities;
 import javax.persistence.*;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = "findClientByName", query = "select client from Client client where client.firstName=:firstName and client.surname=:surname"),
+        @NamedQuery(name = "findClientByUser", query = "select client.surname from Client client inner join client.user user where user.userName = :userName")
+})
+
 @Entity
 @Table(name = "clients")
 public class Client {

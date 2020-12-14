@@ -10,13 +10,13 @@ public class CityDTO {
     @NotNull
     @NotEmpty
     @NotBlank
-    @Pattern(regexp = "([a-z-A-Z])*")
+    @Pattern(regexp = "([a-z A-Z])*")
     private String name;
     private CountryDTO countryDTO;
     private Set<AirportDTO> airportDTOSet;
     private Set<HotelDTO> hotelDTOSet;
 
-    public CityDTO(@NotNull @NotEmpty @NotBlank @Pattern(regexp = "([a-z-A-Z])*") String name) {
+    public CityDTO(@NotNull @NotEmpty @NotBlank @Pattern(regexp = "([a-z A-Z])*") String name) {
         this.name = name;
     }
 

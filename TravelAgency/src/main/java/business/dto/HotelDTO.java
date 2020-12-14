@@ -1,26 +1,34 @@
 package business.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 public class HotelDTO {
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    @Pattern(regexp = "([a-z A-Z])*")
     private String name;
     private int stars;
-    private String decription;
+    private String description;
     private CityDTO cityDTO;
     private Set<RoomDTO> roomDTOSet;
 
-    public HotelDTO(String name, int stars, String decription, CityDTO cityDTO, Set<RoomDTO> roomDTOSet) {
+    public HotelDTO(@NotNull @NotBlank @NotEmpty @Pattern(regexp = "([a-z A-Z])*") String name, int stars, String description, CityDTO cityDTO, Set<RoomDTO> roomDTOSet) {
         this.name = name;
         this.stars = stars;
-        this.decription = decription;
+        this.description = description;
         this.cityDTO = cityDTO;
         this.roomDTOSet = roomDTOSet;
     }
 
-    public HotelDTO(String name, int stars, String decription) {
+    public HotelDTO(String name, int stars, String description) {
         this.name = name;
         this.stars = stars;
-        this.decription = decription;
+        this.description = description;
     }
 
     public HotelDTO() {
@@ -42,12 +50,12 @@ public class HotelDTO {
         this.stars = stars;
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
     }
 
     public void setDecription(String decription) {
-        this.decription = decription;
+        this.description = description;
     }
 
     public CityDTO getCityDTO() {
@@ -71,7 +79,7 @@ public class HotelDTO {
         return "HotelDTO{" +
                 "name='" + name + '\'' +
                 ", stars=" + stars +
-                ", decription='" + decription + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

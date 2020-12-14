@@ -3,6 +3,11 @@ package persistence.entities;
 import javax.persistence.*;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = "findHotelByName", query = "select hotel from Hotel hotel where hotel.name = :name"),
+        @NamedQuery(name = "findHotelByCity", query = "select hotel.name from Hotel hotel inner join hotel.city city where city.name = :name")
+})
+
 @Entity
 @Table(name = "hotels")
 public class Hotel {

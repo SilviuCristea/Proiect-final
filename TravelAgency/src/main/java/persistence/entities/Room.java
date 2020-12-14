@@ -3,6 +3,7 @@ package persistence.entities;
 import javax.persistence.*;
 import java.util.Set;
 
+
 @Entity
 @Table(name = "rooms")
 public class Room {
@@ -17,6 +18,13 @@ public class Room {
     private boolean extraBed;
     @ManyToMany(mappedBy = "roomSet", cascade = CascadeType.ALL)
     private Set<Hotel> hotelSet;
+
+    public Room(String type, int number, boolean extraBed, Set<Hotel> hotelSet) {
+        this.type = type;
+        this.number = number;
+        this.extraBed = extraBed;
+        this.hotelSet = hotelSet;
+    }
 
     public Room(String type, int number, boolean extraBed) {
         this.type = type;

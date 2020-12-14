@@ -5,7 +5,7 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = "findAirportByName", query = "select airport from Airport airport where airport.name = :name"),
-        @NamedQuery(name = "fingAirportByCity", query = "select airport from Airport airport inner join airport.city city where city.name = :name")
+        @NamedQuery(name = "findAirportByCity", query = "select airport.name from Airport airport inner join airport.city city where city.name = :name")
 })
 
 @Entity
@@ -17,7 +17,7 @@ public class Airport {
     @Column(name = "name")
     private String name;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_airport_id")
     private City city;
     @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL)
     private Set<Trip> tripSet;

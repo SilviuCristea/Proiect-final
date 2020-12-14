@@ -6,9 +6,7 @@ import business.service.ContinentService;
 import business.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,5 +27,16 @@ public class CityController {
         }else{
             return ResponseEntity.badRequest().body(cityDTO.getName()+" exista in baza de date.");
         }
+    }
+
+    @GetMapping(path = "/findCityByName")
+    public ResponseEntity findCityByName(@RequestParam String name){
+        CityDTO cityDTO = cityService.findCityByName(name);
+        if (cityDTO==null){
+            return ResponseEntity.badRequest().body("Orasul "+name+" nu exista in baza de date.");
+        }else{
+            return ResponseEntity.ok(cityDTO);
+        }
+
     }
 }

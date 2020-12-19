@@ -62,6 +62,7 @@ public class HotelService {
             room.setType(roomDTO.getType());
             room.setNumber(roomDTO.getNumber());
             room.setExtraBed(roomDTO.isExtraBed());
+            room.setHotel(hotel);
             roomSet.add(room);
         }
         hotel.setRoomSet(roomSet);

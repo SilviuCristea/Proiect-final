@@ -1,18 +1,17 @@
 package business.dto;
 
-import java.util.Set;
 
 public class RoomDTO {
     private String type;
     private int number;
     private boolean extraBed;
-    private Set<HotelDTO> hotelDTOSet;
+    private HotelDTO hotelDTO;
 
-    public RoomDTO(String type, int number, boolean extraBed, Set<HotelDTO> hotelDTOSet) {
+    public RoomDTO(String type, int number, boolean extraBed, HotelDTO hotelDTO) {
         this.type = type;
         this.number = number;
         this.extraBed = extraBed;
-        this.hotelDTOSet = hotelDTOSet;
+        this.hotelDTO = hotelDTO;
     }
 
     public RoomDTO(String type, int number, boolean extraBed) {
@@ -48,12 +47,12 @@ public class RoomDTO {
         this.extraBed = extraBed;
     }
 
-    public Set<HotelDTO> getHotelDTOSet() {
-        return hotelDTOSet;
+    public HotelDTO getHotelDTO() {
+        return hotelDTO;
     }
 
-    public void setHotelDTOSet(Set<HotelDTO> hotelDTOSet) {
-        this.hotelDTOSet = hotelDTOSet;
+    public void setHotelDTO(HotelDTO hotelDTO) {
+        this.hotelDTO = hotelDTO;
     }
 
     @Override

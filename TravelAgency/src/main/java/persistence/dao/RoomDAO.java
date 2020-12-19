@@ -5,9 +5,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import persistence.entities.Room;
 
-import javax.persistence.Query;
-import java.util.List;
-
 @Repository
 public class RoomDAO {
     public void insert(Room room){

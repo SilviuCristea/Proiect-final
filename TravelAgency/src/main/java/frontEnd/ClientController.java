@@ -1,12 +1,15 @@
 package frontEnd;
 
+import business.dto.CityDTO;
 import business.dto.ClientDTO;
 import business.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +30,16 @@ public class ClientController {
         }else{
             clientService.insert(clientDTO);
             return ResponseEntity.ok("Inregistrare efectuata cu succes.");
+        }
+    }
+
+    @GetMapping(path = "/findCustomer")
+    public ResponseEntity findClientByName(@RequestParam String firstName, @RequestParam String surname){
+        List<ClientDTO> clientDTOList = clientService.findClientByName(firstName, surname);
+        if (clientDTOList == null){
+            return ResponseEntity.badRequest().body("Clientul "+ firstName + " " + surname + " nu este in baza de date. Va rog sa va inregistrati.");
+        }else{
+            return ResponseEntity.ok(clientDTOList);
         }
     }
 }

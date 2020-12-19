@@ -1,8 +1,6 @@
 package persistence.entities;
 
 import javax.persistence.*;
-import java.util.Set;
-
 
 @Entity
 @Table(name = "rooms")
@@ -16,14 +14,15 @@ public class Room {
     private int number;
     @Column(name = "extra_bed")
     private boolean extraBed;
-    @ManyToMany(mappedBy = "roomSet", cascade = CascadeType.ALL)
-    private Set<Hotel> hotelSet;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 
-    public Room(String type, int number, boolean extraBed, Set<Hotel> hotelSet) {
+    public Room(String type, int number, boolean extraBed, Hotel hotel) {
         this.type = type;
         this.number = number;
         this.extraBed = extraBed;
-        this.hotelSet = hotelSet;
+        this.hotel = hotel;
     }
 
     public Room(String type, int number, boolean extraBed) {
@@ -67,12 +66,12 @@ public class Room {
         this.extraBed = extraBed;
     }
 
-    public Set<Hotel> getHotelSet() {
-        return hotelSet;
+    public Hotel getHotel() {
+        return hotel;
     }
 
-    public void setHotelSet(Set<Hotel> hotelSet) {
-        this.hotelSet = hotelSet;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     @Override
@@ -81,6 +80,7 @@ public class Room {
                 "type='" + type + '\'' +
                 ", number=" + number +
                 ", extraBed=" + extraBed +
+                ", hotel=" + hotel +
                 '}';
     }
 }

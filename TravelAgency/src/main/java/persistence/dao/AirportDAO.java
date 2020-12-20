@@ -19,6 +19,10 @@ public class AirportDAO {
         session.close();
     }
 
+    public void insert(Airport airport, Session session){
+        session.save(airport);
+    }
+
     public Airport findAirportByName(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -35,6 +39,20 @@ public class AirportDAO {
         return airport;
     }
 
+    public Airport findAirportByName(String name, Session session){
+        Query findAirportByNameQuery = session.createNamedQuery("findAirportByName");
+        findAirportByNameQuery.setParameter("name", name);
+        Airport airport = null;
+        try {
+            airport = (Airport) findAirportByNameQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        }
+        return airport;
+    }
+
+
+
     public List<String> findAirportByCity(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -45,4 +63,5 @@ public class AirportDAO {
         session.close();
         return airportList;
     }
+
 }

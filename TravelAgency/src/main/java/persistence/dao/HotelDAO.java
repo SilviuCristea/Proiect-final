@@ -19,6 +19,9 @@ public class HotelDAO {
         session.getTransaction().commit();
         session.close();
     }
+    public void insert(Hotel hotel, Session session){
+        session.save(hotel);
+    }
 
     public List<Hotel> findHotelByName(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -31,6 +34,8 @@ public class HotelDAO {
         return  hotelList;
     }
 
+
+
     public List<String> findHotelByCity(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -40,6 +45,36 @@ public class HotelDAO {
         session.getTransaction().commit();
         session.close();
         return hotelList;
+    }
+
+    public Hotel findHotelByNameAndCity(String hotelName, String cityName){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query findHotelByNameAndCityQuery = session.createNamedQuery("findHotelByNameAndCity");
+        findHotelByNameAndCityQuery.setParameter("hotelName", hotelName);
+        findHotelByNameAndCityQuery.setParameter("cityName", cityName);
+        Hotel hotel = null;
+        try {
+            hotel = (Hotel) findHotelByNameAndCityQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        }
+        session.getTransaction().commit();
+        session.close();
+        return hotel;
+    }
+
+    public Hotel findHotelByNameAndCity(String hotelName, String cityName, Session session){
+        Query findHotelByNameAndCityQuery = session.createNamedQuery("findHotelByNameAndCity");
+        findHotelByNameAndCityQuery.setParameter("hotelName", hotelName);
+        findHotelByNameAndCityQuery.setParameter("cityName", cityName);
+        Hotel hotel = null;
+        try {
+            hotel = (Hotel) findHotelByNameAndCityQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        }
+        return hotel;
     }
 
 }

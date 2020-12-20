@@ -105,4 +105,28 @@ public class HotelService {
         return hotelList;
     }
 
+    public HotelDTO findHotelByNameAndCity(String hotelName, String cityName){
+        HotelDTO hotelDTO = new HotelDTO();
+        Hotel hotel = hotelDAO.findHotelByNameAndCity(hotelName, cityName);
+        if (hotel == null){
+            return null;
+        }
+        hotelDTO.setName(hotel.getName());
+        hotelDTO.setStars(hotel.getStars());
+        hotelDTO.setDecription(hotel.getDescription());
+        CityDTO cityDTO = new CityDTO();
+        cityDTO.setName(hotel.getCity().getName());
+        hotelDTO.setCityDTO(cityDTO);
+        Set<RoomDTO> roomDTOSet = new HashSet<>();
+        for (Room room : hotel.getRoomSet()){
+            RoomDTO roomDTO = new RoomDTO();
+            roomDTO.setType(room.getType());
+            roomDTO.setNumber(room.getNumber());
+            roomDTO.setExtraBed(room.isExtraBed());
+            roomDTOSet.add(roomDTO);
+        }
+        hotelDTO.setRoomDTOSet(roomDTOSet);
+        return hotelDTO;
+    }
+
 }

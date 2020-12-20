@@ -7,11 +7,8 @@ import persistence.entities.Flight;
 
 @Repository
 public class FlightDAO {
-    public void insert(Flight flight){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+    public void insert(Flight flight, Session session){
         session.save(flight);
-        session.getTransaction().commit();
-        session.close();
     }
+
 }

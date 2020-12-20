@@ -10,12 +10,8 @@ import java.util.List;
 
 @Repository
 public class TripDAO {
-    public void insert(Trip trip){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.save(trip);
-        session.getTransaction().commit();
-        session.close();
+    public void insert(Trip trip, Session session){
+        session.saveOrUpdate(trip);
     }
 
     public List<Trip> findPromotedTrips(boolean promoted){
@@ -34,6 +30,17 @@ public class TripDAO {
         session.beginTransaction();
         Query findAllTripQuery = session.createNamedQuery("findAllTrip");
         List<Trip> tripList = findAllTripQuery.getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return tripList;
+    }
+
+    public List<String> findTripByName(String name){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query findTripByNameQuery = session.createNamedQuery("findTripByName");
+        findTripByNameQuery.setParameter("name", name);
+        List<String> tripList = findTripByNameQuery.getResultList();
         session.getTransaction().commit();
         session.close();
         return tripList;

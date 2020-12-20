@@ -5,7 +5,8 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = "findHotelByName", query = "select hotel from Hotel hotel where hotel.name = :name"),
-        @NamedQuery(name = "findHotelByCity", query = "select hotel.name from Hotel hotel inner join hotel.city city where city.name = :name")
+        @NamedQuery(name = "findHotelByCity", query = "select hotel.name from Hotel hotel inner join hotel.city city where city.name = :name"),
+        @NamedQuery(name = "findHotelByNameAndCity", query = "select hotel from Hotel hotel inner join hotel.city city where hotel.name = :hotelName and city.name = :cityName")
 })
 
 @Entity
@@ -23,9 +24,7 @@ public class Hotel {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
     private City city;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "hotels_rooms", joinColumns = {@JoinColumn(name = "hotel_id")},
-            inverseJoinColumns = {@JoinColumn(name = "room_id")})
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Room> roomSet;
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Trip> tripSet;

@@ -7,11 +7,7 @@ import persistence.entities.Room;
 
 @Repository
 public class RoomDAO {
-    public void insert(Room room){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+    public void insert(Room room, Session session){
         session.save(room);
-        session.getTransaction().commit();
-        session.close();
     }
 }

@@ -17,6 +17,9 @@ public class ContinentDAO {
         session.getTransaction().commit();
         session.close();
     }
+    public void insert(Continent continent, Session session){
+        session.save(continent);
+    }
 
     public Continent findContinentByName(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -31,6 +34,18 @@ public class ContinentDAO {
         }
         session.getTransaction().commit();
         session.close();
+        return continent;
+    }
+
+    public Continent findContinentByName(String name, Session session){
+        Query findContinentByNameQuery = session.createNamedQuery("findContinentByName");
+        findContinentByNameQuery.setParameter("name", name);
+        Continent continent = null;
+        try {
+            continent = (Continent) findContinentByNameQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        };
         return continent;
     }
 }

@@ -18,6 +18,9 @@ public class CountryDAO {
         session.getTransaction().commit();
         session.close();
     }
+    public void insert(Country country, Session session){
+        session.save(country);
+    }
     public Country findCountryByName(String name){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -31,6 +34,17 @@ public class CountryDAO {
         }
         session.getTransaction().commit();
         session.close();
+        return country;
+    }
+    public Country findCountryByName(String name, Session session){
+        Query findCountryByNameQuery = session.createNamedQuery("findCountryByName");
+        findCountryByNameQuery.setParameter("name", name);
+        Country country = null;
+        try {
+            country = (Country) findCountryByNameQuery.getSingleResult();
+        }catch (NoResultException e){
+            System.out.println(e.getMessage());
+        }
         return country;
     }
 

@@ -6,7 +6,8 @@ import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = "findPromotedTrips", query = "select trip from Trip trip where trip.promoted = :promoted"),
-        @NamedQuery(name = "findAllTrip", query = "select trip from Trip trip")
+        @NamedQuery(name = "findAllTrip", query = "select trip from Trip trip"),
+        @NamedQuery(name = "findTripByName", query = "select trip.name from Trip trip where trip.name = :name")
         //@NamedQuery(name = "findTripByContinent", query = "select trip from Trip trip inner join trip.hotel inner join hotel.city inner join city.country inner join country.continent where continent.name = :name"),
         //@NamedQuery(name = "findTripByCountry", query = "select trip from Trip trip inner join trip.hotel inner join hotel.city inner join city.country where country.name = :name")
 })

@@ -19,16 +19,18 @@ public class Airport {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city_airport_id")
     private City city;
-    @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL)
-    private Set<Trip> tripSet;
-    @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Flight> flightSet;
 
-    public Airport(String name, City city, Set<Trip> tripSet, Set<Flight> flightSet) {
+    public Airport(String name, City city, Set<Flight> flightSet) {
         this.name = name;
         this.city = city;
-        this.tripSet = tripSet;
         this.flightSet = flightSet;
+    }
+
+    public Airport(String name, City city) {
+        this.name = name;
+        this.city = city;
     }
 
     public Airport(String name) {
@@ -38,21 +40,6 @@ public class Airport {
     public Airport() {
     }
 
-    public Set<Trip> getTripSet() {
-        return tripSet;
-    }
-
-    public void setTripSet(Set<Trip> tripSet) {
-        this.tripSet = tripSet;
-    }
-
-    public Set<Flight> getFlightSet() {
-        return flightSet;
-    }
-
-    public void setFlightSet(Set<Flight> flightSet) {
-        this.flightSet = flightSet;
-    }
 
     public int getId() {
         return id;
@@ -78,12 +65,19 @@ public class Airport {
         this.city = city;
     }
 
+    public Set<Flight> getFlightSet() {
+        return flightSet;
+    }
+
+    public void setFlightSet(Set<Flight> flightSet) {
+        this.flightSet = flightSet;
+    }
+
     @Override
     public String toString() {
         return "Airport{" +
                 "name='" + name + '\'' +
                 ", city=" + city +
-                ", tripSet=" + tripSet +
                 ", flightSet=" + flightSet +
                 '}';
     }

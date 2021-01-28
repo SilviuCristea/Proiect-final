@@ -13,15 +13,13 @@ public class CountryDTO {
     @Pattern(regexp = "([a-z A-Z])*")
     private String name;
     private ContinentDTO continentDTO;
-    private Set<CityDTO> cityDTOSet;
 
-    public CountryDTO(String name, ContinentDTO continentDTO, Set<CityDTO> cityDTOSet) {
+    public CountryDTO(@NotNull @NotBlank @NotEmpty @Pattern(regexp = "([a-z A-Z])*") String name, ContinentDTO continentDTO) {
         this.name = name;
         this.continentDTO = continentDTO;
-        this.cityDTOSet = cityDTOSet;
     }
 
-    public CountryDTO(@NotNull @NotBlank @ NotEmpty @Pattern(regexp = "([a-z A-Z])*") String name) {
+    public CountryDTO(@NotNull @NotBlank @NotEmpty @Pattern(regexp = "([a-z A-Z])*") String name) {
         this.name = name;
     }
 
@@ -44,18 +42,11 @@ public class CountryDTO {
         this.continentDTO = continentDTO;
     }
 
-    public Set<CityDTO> getCityDTOSet() {
-        return cityDTOSet;
-    }
-
-    public void setCityDTOSet(Set<CityDTO> cityDTOSet) {
-        this.cityDTOSet = cityDTOSet;
-    }
-
     @Override
     public String toString() {
         return "CountryDTO{" +
                 "name='" + name + '\'' +
+                ", continentDTO=" + continentDTO +
                 '}';
     }
 }

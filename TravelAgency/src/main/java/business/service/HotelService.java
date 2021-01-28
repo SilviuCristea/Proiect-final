@@ -79,7 +79,7 @@ public class HotelService {
             HotelDTO hotelDTO = new HotelDTO();
             hotelDTO.setName(hotel.getName());
             hotelDTO.setStars(hotel.getStars());
-            hotelDTO.setDecription(hotel.getDescription());
+            hotelDTO.setDescription(hotel.getDescription());
             CityDTO cityDTO = new CityDTO();
             cityDTO.setName(hotel.getCity().getName());
             hotelDTO.setCityDTO(cityDTO);
@@ -113,7 +113,7 @@ public class HotelService {
         }
         hotelDTO.setName(hotel.getName());
         hotelDTO.setStars(hotel.getStars());
-        hotelDTO.setDecription(hotel.getDescription());
+        hotelDTO.setDescription(hotel.getDescription());
         CityDTO cityDTO = new CityDTO();
         cityDTO.setName(hotel.getCity().getName());
         hotelDTO.setCityDTO(cityDTO);

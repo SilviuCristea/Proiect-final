@@ -1,0 +1,550 @@
+{
+	"info": {
+		"_postman_id": "6f9b0abc-41c8-4dfb-97b9-ee2557d11711",
+		"name": "TravelAgency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "InsertContinent",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Europa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertContinent?name=Europa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertContinent"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Europa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindContinentByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findContinentByNamne?name=Europa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findContinentByNamne"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Europa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertCountry",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Canada\",\r\n    \"continentDTO\":\"America\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertCountry",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertCountry"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindCountryByContinent",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/findCountryByContinent?name=Europa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"",
+						"findCountryByContinent"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Europa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindCountryByName",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/findCountryByName?name=Romania",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findCountryByName"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Romania"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertCity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Bucuresti\",\r\n    \"countryDTO\":\"Rusia\",\r\n    \"continentDTO\":\"Asia\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertCity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertCity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertHotel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Calarasi\",\r\n    \"address\":\"Piata Universitatii\",\r\n    \"numberOfStars\":4,\r\n    \"description\":\"Are vedere pe Bulevardul Maniu\",\r\n    \"roomDTOSet\":[{\r\n        \"type\":\"single\",\r\n        \"number\":8,\r\n        \"extraBed\":false\r\n    },{\r\n         \"type\":\"double\",\r\n        \"number\":20,\r\n        \"extraBed\":true\r\n    }],\r\n    \"cityDTO\":{\r\n        \"name\":\"Bucuresti\",\r\n        \"countryDTO\":{\r\n            \"name\":\"Romania\",\r\n             \"continentDTO\":{\r\n                         \"name\":\"Europe\"\r\n                     }\r\n        }\r\n    }\r\n}  ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertHotel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertHotel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertAirport",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Otopeni\",\r\n    \"cityDTO\":{\r\n        \"name\":\"Bucuresti\",\r\n        \"countryDTO\":{\r\n            \"name\":\"Romania\",\r\n             \"continentDTO\":{\r\n                         \"name\":\"Europe\"\r\n                     }\r\n        }\r\n    },\r\n    \"flightDTOSet\":[{\r\n        \"flightDate\":\"12-05-2008\",\r\n        \"flightTime\":\"08:15:00\",\r\n        \"flightTo\":\"Atena\",\r\n        \"price\":200,\r\n        \"availibleSeats\":50\r\n    },{\r\n        \"flightDate\":\"14-05-2008\",\r\n        \"flightTime\":\"09:15:00\",\r\n        \"flightTo\":\"Praga\",\r\n        \"price\":150,\r\n        \"availibleSeats\":30\r\n    }]\r\n}  ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertAirport",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertAirport"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InsertClient",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"firstName\":\"Silviu\",\r\n    \"surname\":\"Cristea\",\r\n    \"yearOfBirth\":\"1973\",\r\n    \"adress\":\"Braila Comunarzi\",\r\n    \"phoneNumber\":\"0730044228\",\r\n    \"email\":\"silviucrist@gmail.com\",\r\n    \"userDTO\":{\r\n        \"userName\":\"maximus\",\r\n        \"password\":\"1234\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertClient",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertClient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insertTrip",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n    \"name\":\"City Break Sydney\",\r\n    \"airportDTO\":{\r\n    \"name\":\"Otopeni\",\r\n    \"cityDTO\":{\r\n        \"name\":\"Bucuresti\",\r\n        \"countryDTO\":{\r\n            \"name\":\"Romania\",\r\n             \"continentDTO\":{\r\n                         \"name\":\"Europa\"\r\n                     }\r\n        }\r\n    },\r\n    \"flightDTOSet\":[{\r\n        \"flightDate\":\"2021-07-03\",\r\n        \"flightHour\":\"12:00:00\",\r\n        \"flightTo\":\"Sydney\",\r\n        \"price\":850,\r\n        \"availibleSeats\":10\r\n    }]\r\n},\r\n    \"hotelDTO\":{\r\n    \"name\":\"Four Seasons Hotel Sydney\",\r\n    \"stars\":5,\r\n    \"description\":\"Una dintre alegerile noastre de top din Sydney\",\r\n    \"roomDTOSet\":[{\r\n        \"type\":\"double\",\r\n        \"number\":10,\r\n        \"extraBed\":false\r\n    },{\r\n         \"type\":\"double\",\r\n        \"number\":10,\r\n        \"extraBed\":true\r\n    }],\r\n    \"cityDTO\":{\r\n        \"name\":\"Sydney\",\r\n        \"countryDTO\":{\r\n            \"name\":\"Australia\",\r\n             \"continentDTO\":{\r\n                         \"name\":\"Australia\"\r\n                     }\r\n        }\r\n    }\r\n},\r\n    \"departureDate\":\"2021-07-03\",\r\n   \"returnDate\":\"2021-07-13\",\r\n   \"numberDays\":7,\r\n   \"tripType\":\"AI\",\r\n   \"adultPrice\":900,\r\n   \"kidPrice\":400,\r\n   \"promoted\":true,\r\n   \"adultBed\":40,\r\n   \"kidsBed\":10,\r\n   \"stock\":20\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/insertTrip",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"insertTrip"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindPromotedTrips",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findPromotedTrips?promoted=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findPromotedTrips"
+					],
+					"query": [
+						{
+							"key": "promoted",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindAllTrips",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findAllTrips",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findAllTrips"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindAirportByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findAirportByName?name=Otopeni",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"",
+						"findAirportByName"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Otopeni"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindHotelByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080//findHotelByName?name=Moldova",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"",
+						"",
+						"findHotelByName"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Moldova"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindUpcomingTrips",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findUpcomingTrips?departureDate=2021-04-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"",
+						"findUpcomingTrips"
+					],
+					"query": [
+						{
+							"key": "departureDate",
+							"value": "2021-04-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindUpcomingTripsByContinent",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findUpcomingTripsByContinent?name=Australia&departureDate=2021-05-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findUpcomingTripsByContinent"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Australia"
+						},
+						{
+							"key": "departureDate",
+							"value": "2021-05-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindUpcomingTripsByCountry",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findUpcomingTripsByCountry?name=Germania&departureDate=2021-05-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findUpcomingTripsByCountry"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Germania"
+						},
+						{
+							"key": "departureDate",
+							"value": "2021-05-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindUpcomingTripsByCity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findUpcomingTripsByCity?name=Sydney&departureDate=2021-03-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findUpcomingTripsByCity"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Sydney"
+						},
+						{
+							"key": "departureDate",
+							"value": "2021-03-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindUpcomingTripsByHotel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/findUpcomingTripsByHotel?name=NUO Hotel Beijing&departureDate=2021-02-28",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"findUpcomingTripsByHotel"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "NUO Hotel Beijing"
+						},
+						{
+							"key": "departureDate",
+							"value": "2021-02-28"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -25,6 +25,13 @@ public class HotelDTO {
         this.roomDTOSet = roomDTOSet;
     }
 
+    public HotelDTO(@NotNull @NotBlank @NotEmpty @Pattern(regexp = "([a-z A-Z])*") String name, int stars, String description, CityDTO cityDTO) {
+        this.name = name;
+        this.stars = stars;
+        this.description = description;
+        this.cityDTO = cityDTO;
+    }
+
     public HotelDTO(String name, int stars, String description) {
         this.name = name;
         this.stars = stars;
@@ -54,7 +61,7 @@ public class HotelDTO {
         return description;
     }
 
-    public void setDecription(String decription) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -80,6 +87,7 @@ public class HotelDTO {
                 "name='" + name + '\'' +
                 ", stars=" + stars +
                 ", description='" + description + '\'' +
+                ", cityDTO=" + cityDTO +
                 '}';
     }
 }

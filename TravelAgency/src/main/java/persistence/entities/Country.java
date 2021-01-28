@@ -1,7 +1,6 @@
 package persistence.entities;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @NamedQueries({
         @NamedQuery(name = "findCountryByName", query = "select country from Country country where country.name = :name"),
@@ -19,8 +18,7 @@ public class Country {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "continent_id")
     private Continent continent;
-    @OneToMany(mappedBy = "country")
-    private Set<City> citySet;
+
 
     public Country(String name, Continent continent) {
         this.name = name;
@@ -54,13 +52,6 @@ public class Country {
         this.continent = continent;
     }
 
-    public Set<City> getCitySet() {
-        return citySet;
-    }
-
-    public void setCitySet(Set<City> citySet) {
-        this.citySet = citySet;
-    }
 
     @Override
     public String toString() {

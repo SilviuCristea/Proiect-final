@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(name = "findFlightByAirport", query = "select flight from Flight flight inner join flight.airport airport where airport.name = :name")
+})
+
 @Entity
 @Table(name = "flights")
 public class Flight {

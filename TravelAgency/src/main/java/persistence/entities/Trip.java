@@ -7,9 +7,12 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "findPromotedTrips", query = "select trip from Trip trip where trip.promoted = :promoted"),
         @NamedQuery(name = "findAllTrip", query = "select trip from Trip trip"),
-        @NamedQuery(name = "findTripByName", query = "select trip.name from Trip trip where trip.name = :name")
-        //@NamedQuery(name = "findTripByContinent", query = "select trip from Trip trip inner join trip.hotel inner join hotel.city inner join city.country inner join country.continent where continent.name = :name"),
-        //@NamedQuery(name = "findTripByCountry", query = "select trip from Trip trip inner join trip.hotel inner join hotel.city inner join city.country where country.name = :name")
+        @NamedQuery(name = "findTripByName", query = "select trip.name from Trip trip where trip.name = :name"),
+        @NamedQuery(name = "findUpcomingTrips", query = "select trip from Trip trip where trip.departureDate >= :departureDate"),
+        @NamedQuery(name = "findUpcomingTripsByContinent", query = "select trip from Trip trip where trip.hotel.city.country.continent.name = :name and trip.departureDate >= :departureDate"),
+        @NamedQuery(name = "findUpcomingTripsByCountry", query = "select trip from Trip trip where trip.hotel.city.country.name = :name and trip.departureDate >= :departureDate"),
+        @NamedQuery(name = "findUpcomingTripsByCity", query = "select trip from Trip trip where trip.hotel.city.name = :name and trip.departureDate >= :departureDate"),
+        @NamedQuery(name = "findUpcomingTripsByHotel", query = "select trip from Trip trip where trip.hotel.name = :name and trip.departureDate >= :departureDate")
 })
 
 @Entity

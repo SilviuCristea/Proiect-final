@@ -1,7 +1,6 @@
 package business.service;
 
 import business.dto.ClientDTO;
-import business.dto.HotelDTO;
 import business.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,9 @@ import persistence.dao.ClientDAO;
 import persistence.entities.Client;
 import persistence.entities.User;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +29,31 @@ public class ClientService {
         client.setEmail(clientDTO.getEmail());
         User user = new User();
         user.setUserName(clientDTO.getUserDTO().getUserName());
-        user.setPassword(clientDTO.getUserDTO().getPassword());
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        BigInteger bigInteger = new BigInteger(1, messageDigest.digest(clientDTO.getUserDTO().getPassword().getBytes()));
+        String passwordCrypt = bigInteger.toString();
+        user.setPassword(passwordCrypt);
+        //cryptPassword(clientDTO, user);
         user.setClient(client);
         client.setUser(user);
         clientDAO.insert(client);
+    }
+
+    public void cryptPassword(ClientDTO clientDTO, User user){
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        BigInteger bigInteger = new BigInteger(1, messageDigest.digest(clientDTO.getUserDTO().getPassword().getBytes()));
+        String passwordCrypt = bigInteger.toString();
+        user.setPassword(passwordCrypt);
     }
 
     public List<ClientDTO> findClientByName(String firstName, String surname){
@@ -49,7 +72,6 @@ public class ClientService {
             clientDTO.setEmail(client.getEmail());
             UserDTO userDTO = new UserDTO();
             userDTO.setUserName(client.getUser().getUserName());
-            userDTO.setPassword(client.getUser().getPassword());
             userDTO.setClientDTO(clientDTO);
             clientDTO.setUserDTO(userDTO);
             clientDTOList.add(clientDTO);
@@ -64,4 +86,6 @@ public class ClientService {
         }
         return clientList;
     }
+
+
 }

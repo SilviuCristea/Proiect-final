@@ -15,8 +15,7 @@ public class Continent {
     private int id;
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "continent")
-    private Set<Country> countrySet;
+
 
     public Continent(String name) {
         this.name = name;
@@ -41,17 +40,9 @@ public class Continent {
         this.name = name;
     }
 
-    public Set<Country> getCountrySet() {
-        return countrySet;
-    }
-
-    public void setCountrySet(Set<Country> countrySet) {
-        this.countrySet = countrySet;
-    }
-
     @Override
     public String toString() {
-        return "persistence.entities.Continent{" +
+        return "Continent{" +
                 "name='" + name + '\'' +
                 '}';
     }

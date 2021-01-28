@@ -18,10 +18,6 @@ public class City {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
     private Country country;
-    @OneToMany(mappedBy = "city")
-    private Set<Airport> airportSet;
-    @OneToMany(mappedBy = "city")
-    private Set<Hotel> hotelSet;
 
     public City(String name, Country country) {
         this.name = name;
@@ -56,21 +52,6 @@ public class City {
         this.country = country;
     }
 
-    public Set<Airport> getAirportSet() {
-        return airportSet;
-    }
-
-    public void setAirportSet(Set<Airport> airportSet) {
-        this.airportSet = airportSet;
-    }
-
-    public Set<Hotel> getHotelSet() {
-        return hotelSet;
-    }
-
-    public void setHotelSet(Set<Hotel> hotelSet) {
-        this.hotelSet = hotelSet;
-    }
 
     @Override
     public String toString() {

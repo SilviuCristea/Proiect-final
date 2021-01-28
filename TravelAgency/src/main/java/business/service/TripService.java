@@ -1,9 +1,6 @@
 package business.service;
 
-import business.dto.FlightDTO;
-import business.dto.HotelDTO;
-import business.dto.RoomDTO;
-import business.dto.TripDTO;
+import business.dto.*;
 import config.HibernateUtil;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +8,7 @@ import org.springframework.stereotype.Service;
 import persistence.dao.*;
 import persistence.entities.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TripService {
@@ -72,9 +67,20 @@ public class TripService {
                 flightSet.add(flight);
             }
             airport.setFlightSet(flightSet);
+        }else{
+            Set<Flight> flightSet = new HashSet<>();
+            for (FlightDTO flightDTO : tripDTO.getAirportDTO().getFlightDTOSet()){
+                Flight flight = new Flight();
+                flight.setFlightDate(flightDTO.getFlightDate());
+                flight.setFlightHour(flightDTO.getFlightHour());
+                flight.setFlightTo(flightDTO.getFlightTo());
+                flight.setPrice(flightDTO.getPrice());
+                flight.setAvailableSeats(flightDTO.getAvailableSeats());
+                flight.setAirport(airport);
+                flightSet.add(flight);
+            }
+            airport.setFlightSet(flightSet);
         }
-
-
 
         Continent continentHotel = null;
         if (!tripDTO.getHotelDTO().getCityDTO().getCountryDTO().getContinentDTO().getName().equals(continentAirport.getName())){
@@ -160,4 +166,504 @@ public class TripService {
         }
         return tripList;
     }
+
+
+    public List<TripDTO> findAllTrips(){
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        List<Trip> tripList = tripDAO.findAllTrip();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
+    public List<TripDTO> findPromotedTrips(boolean promoted){
+        List<Trip> tripList = tripDAO.findPromotedTrips(promoted);
+        if (tripList.isEmpty()){
+            return null;
+        }
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
+    public List<TripDTO> findUpcomingTrips(Date departureDate){
+        List<Trip> tripList = tripDAO.findUpcomingTrips(departureDate);
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
+    public List<TripDTO> findUpcomingTripsByContinent(String name, Date departureDate){
+        List<Trip> tripList = tripDAO.findUpcomingTripsByContinent(name, departureDate);
+        if (tripList.isEmpty()){
+            return null;
+        }
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
+    public List<TripDTO> findUpcomingTripsByCountry(String name, Date departureDate){
+        List<Trip> tripList = tripDAO.findUpcomingTripsByCountry(name, departureDate);
+        if (tripList.isEmpty()){
+            return null;
+        }
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
+    public List<TripDTO> findUpcomingTripsByCity(String name, Date departureDate){
+        List<Trip> tripList = tripDAO.findUpcomingTripsByCity(name, departureDate);
+        if (tripList.isEmpty()){
+            return null;
+        }
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
+    public List<TripDTO> findUpcomingTripsByHotel(String name, Date departureDate){
+        List<Trip> tripList = tripDAO.findUpcomingTripsByHotel(name, departureDate);
+        if (tripList.isEmpty()){
+            return null;
+        }
+        List<TripDTO> tripDTOList = new ArrayList<>();
+        for (Trip trip : tripList){
+            TripDTO tripDTO = new TripDTO();
+            tripDTO.setName(trip.getName());
+            AirportDTO airportDTO = new AirportDTO();
+            airportDTO.setName(trip.getAirport().getName());
+            CityDTO cityDTOFromAirportDTO = new CityDTO();
+            cityDTOFromAirportDTO.setName(trip.getAirport().getCity().getName());
+            CountryDTO countryDTO = new CountryDTO();
+            countryDTO.setName(trip.getAirport().getCity().getCountry().getName());
+            ContinentDTO continentDTO = new ContinentDTO();
+            continentDTO.setName(trip.getAirport().getCity().getCountry().getContinent().getName());
+            countryDTO.setContinentDTO(continentDTO);
+            cityDTOFromAirportDTO.setCountryDTO(countryDTO);
+            airportDTO.setCityDTO(cityDTOFromAirportDTO);
+            Set<FlightDTO> flightDTOSet = new HashSet<>();
+            for (Flight flight : trip.getAirport().getFlightSet()){
+                FlightDTO flightDTO = new FlightDTO();
+                if (flight.getFlightTo().equals(trip.getHotel().getCity().getName())) {
+                    flightDTO.setFlightDate(flight.getFlightDate());
+                    flightDTO.setFlightHour(flight.getFlightHour());
+                    flightDTO.setFlightTo(flight.getFlightTo());
+                    flightDTO.setPrice(flight.getPrice());
+                    flightDTO.setAvailableSeats(flight.getAvailableSeats());
+                    flightDTOSet.add(flightDTO);
+                }
+            }
+            airportDTO.setFlightDTOSet(flightDTOSet);
+            tripDTO.setAirportDTO(airportDTO);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(trip.getHotel().getName());
+            hotelDTO.setStars(trip.getHotel().getStars());
+            hotelDTO.setDescription(trip.getHotel().getDescription());
+            CityDTO cityDTOFromHotelDTO = new CityDTO();
+            cityDTOFromHotelDTO.setName(trip.getHotel().getCity().getName());
+            CountryDTO countryDTOHotel = new CountryDTO();
+            countryDTOHotel.setName(trip.getHotel().getCity().getCountry().getName());
+            cityDTOFromHotelDTO.setCountryDTO(countryDTOHotel);
+            ContinentDTO continentDTOHotel = new ContinentDTO();
+            continentDTOHotel.setName(trip.getHotel().getCity().getCountry().getContinent().getName());
+            countryDTOHotel.setContinentDTO(continentDTOHotel);
+            hotelDTO.setCityDTO(cityDTOFromHotelDTO);
+            Set<RoomDTO> roomDTOSet = new HashSet<>();
+            for (Room room : trip.getHotel().getRoomSet()){
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setType(room.getType());
+                roomDTO.setNumber(room.getNumber());
+                roomDTO.setExtraBed(room.isExtraBed());
+                roomDTOSet.add(roomDTO);
+            }
+            hotelDTO.setRoomDTOSet(roomDTOSet);
+            tripDTO.setHotelDTO(hotelDTO);
+            tripDTO.setDepartureDate(trip.getDepartureDate());
+            tripDTO.setReturnDate(trip.getReturnDate());
+            tripDTO.setNumberDays(trip.getNumberDays());
+            tripDTO.setTripType(trip.getTripType());
+            tripDTO.setAdultPrice(trip.getAdultPrice());
+            tripDTO.setKidPrice(trip.getKidPrice());
+            tripDTO.setPromoted(trip.isPromoted());
+            tripDTO.setAdultBed(trip.getAdultBed());
+            tripDTO.setKidsBed(trip.getKidsBed());
+            tripDTO.setStock(trip.getStock());
+            tripDTOList.add(tripDTO);
+        }
+        return tripDTOList;
+    }
+
 }

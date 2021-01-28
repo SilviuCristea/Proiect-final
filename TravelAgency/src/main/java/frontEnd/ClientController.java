@@ -1,6 +1,5 @@
 package frontEnd;
 
-import business.dto.CityDTO;
 import business.dto.ClientDTO;
 import business.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class ClientController {
         }
     }
 
-    @GetMapping(path = "/findCustomer")
+    @GetMapping(path = "/findClientByName")
     public ResponseEntity findClientByName(@RequestParam String firstName, @RequestParam String surname){
         List<ClientDTO> clientDTOList = clientService.findClientByName(firstName, surname);
         if (clientDTOList == null){
@@ -42,4 +41,6 @@ public class ClientController {
             return ResponseEntity.ok(clientDTOList);
         }
     }
+
+
 }

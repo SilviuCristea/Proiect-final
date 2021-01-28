@@ -1,13 +1,23 @@
 package business.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class UserDTO {
+    @NotBlank
+    @NotEmpty
+    @NotNull
     private String userName;
+    @NotBlank
+    @NotEmpty
+    @NotNull
     private String password;
     private boolean login;
     private boolean adminUser;
     private ClientDTO clientDTO;
 
-    public UserDTO(String userName, String password, boolean login, boolean adminUser, ClientDTO clientDTO) {
+    public UserDTO(@NotBlank @NotEmpty @NotNull String userName, @NotBlank @NotEmpty @NotNull String password, boolean login, boolean adminUser, ClientDTO clientDTO) {
         this.userName = userName;
         this.password = password;
         this.login = login;
@@ -15,7 +25,7 @@ public class UserDTO {
         this.clientDTO = clientDTO;
     }
 
-    public UserDTO(String userName, String password, boolean login, boolean adminUser) {
+    public UserDTO(@NotBlank @NotEmpty @NotNull String userName, @NotBlank @NotEmpty @NotNull String password, boolean login, boolean adminUser) {
         this.userName = userName;
         this.password = password;
         this.login = login;

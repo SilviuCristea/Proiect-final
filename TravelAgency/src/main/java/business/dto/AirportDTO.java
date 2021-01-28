@@ -11,14 +11,13 @@ public class AirportDTO {
     @NotBlank
     private String name;
     private CityDTO cityDTO;
-    private Set<TripDTO> tripDTOSet;
     private Set<FlightDTO> flightDTOSet;
 
-    public AirportDTO(@NotNull @NotBlank @NotEmpty String name, CityDTO cityDTO, Set<TripDTO> tripDTOSet, Set<FlightDTO> flightDTOSet) {
+
+
+    public AirportDTO(@NotEmpty @NotNull @NotBlank String name, CityDTO cityDTO) {
         this.name = name;
         this.cityDTO = cityDTO;
-        this.tripDTOSet = tripDTOSet;
-        this.flightDTOSet = flightDTOSet;
     }
 
     public AirportDTO(String name) {
@@ -28,22 +27,11 @@ public class AirportDTO {
     public AirportDTO() {
     }
 
-    public Set<TripDTO> getTripDTOSet() {
-        return tripDTOSet;
-    }
-
-    public void setTripDTOSet(Set<TripDTO> tripDTOSet) {
-        this.tripDTOSet = tripDTOSet;
-    }
-
-    public Set<FlightDTO> getFlightDTOSet() {
-        return flightDTOSet;
-    }
-
-    public void setFlightDTOSet(Set<FlightDTO> flightDTOSet) {
+    public AirportDTO(@NotEmpty @NotNull @NotBlank String name, CityDTO cityDTO, Set<FlightDTO> flightDTOSet) {
+        this.name = name;
+        this.cityDTO = cityDTO;
         this.flightDTOSet = flightDTOSet;
     }
-
 
     public String getName() {
         return name;
@@ -61,10 +49,19 @@ public class AirportDTO {
         this.cityDTO = cityDTO;
     }
 
+    public Set<FlightDTO> getFlightDTOSet() {
+        return flightDTOSet;
+    }
+
+    public void setFlightDTOSet(Set<FlightDTO> flightDTOSet) {
+        this.flightDTOSet = flightDTOSet;
+    }
+
     @Override
     public String toString() {
         return "AirportDTO{" +
                 "name='" + name + '\'' +
+                ", cityDTO=" + cityDTO +
                 '}';
     }
 }
